@@ -1,0 +1,123 @@
+# List values allow you add infinite lines you want.
+Values:
+  # Lobby
+  schedule: '&cThe game isn''t scheduled.'
+  opening: '&fOpening in&7:&e <count>'
+  starting: '&fStarting in&7:&e <count>'
+
+  # Non-list values
+  gamemode: ' &f- &e<name>'
+  nogamemode: ' &f- &eNo Gamemodes'
+
+  # Spectator
+  host-mod:
+    - '&fTPS&7:&e <tps>'
+    - '&fMemory&7:&e <memory>'
+    - ''
+
+  # Non-list values
+  border: '&fBorder&7:&e <value>'
+  bordercount: ' &7(&c<value>&7)'
+  deathmatch: '&fDeathmatch&7:&e <count>'
+
+  noclean:
+    - '&fNo Clean&7: &e<count>'
+    - ''
+
+  donotdisturb:
+    - '&fDnD&7: &e<count>'
+    - ''
+
+  frozen:
+    - '&cYou are currently &c&lFROZEN&c!'
+    - ''
+
+# Other variables | <pvptime>, <healtime>, <spectators>
+Title: '&e&lExample UHC'
+Sidebars:
+  generating:
+    - '&7&m-----------------------'
+    - '&fTPS&7:&e <tps>'
+    - '&fMemory&7:&e <memory>'
+    - '&fProgress&7:&e <percent> %'
+    - ''
+    - '&aexample.com'
+    - '&7&m-----------------------'
+  lobby:
+    - '&7&m-----------------------'
+    - '<host-mod>'
+    - '&fGamemodes&7:'
+    - '<gamemode>'
+    - ''
+    - '&fTeams&7:&e <teams>'
+    - '&fPlayers&7:&e <players>'
+    - ''
+    - '<schedule-opening-starting>'
+    - ''
+    - '<frozen>'
+    - '&aexample.com'
+    - '&7&m-----------------------'
+  scatter:
+    - '&7&m-----------------------'
+    - '<host-mod>'
+    - '&fStarting in&7:&e <count> seconds'
+    - '&fPlaying&7:&e <players>'
+    - ''
+    # Shows rerolls left in meetups mode
+    # - '&fReRolls&7:&e <rerolls>'
+    - ''
+    - '&aexample.com'
+    - '&7&m-----------------------'
+  game:
+    ffa:
+      normal:
+        - '&7&m-----------------------'
+        - '<host-mod>'
+        - '&fGame Time&7:&e <gametime>'
+        - '&fRemaining&7:&e <current>/<max>'
+        - '&fKills&7:&e <kills>'
+        - '<border-deathmatch>'
+        - ''
+        - '<noclean>'
+        - '<donotdisturb>'
+        - '<frozen>'
+        - '&aexample.com'
+        - '&7&m-----------------------'
+      winner:
+        - '&7&m-----------------------'
+        - '<host-mod>'
+        - '&fRestarting in&7:&e <count>'
+        - ''
+        - '&fWinner&7:&e <winner>'
+        - '&fKills&7:&e <winnerkills>'
+        - '&fWins&7:&e <winnerwins>'
+        - ''
+        - '<frozen>'
+        - '&aexample.com'
+        - '&7&m-----------------------'
+    team:
+      normal:
+        - '&7&m-----------------------'
+        - '<host-mod>'
+        - '&fGame Time&7:&e <gametime>'
+        - '&fPlayers&7:&e <current>/<max> &7(<currentteams>)'
+        - '&fKills&7:&e <kills> &7(<teamkills>)'
+        - ''
+        - '<border-deathmatch>'
+        - ''
+        - '<noclean>'
+        - '<donotdisturb>'
+        - '<frozen>'
+        - '&aexample.com'
+        - '&7&m-----------------------'
+      winner:
+        - '&7&m-----------------------'
+        - '<host-mod>'
+        - '&fRestarting in&7:&e <count>'
+        - ''
+        - '&fWinner&7:&e Team #<winnerteam>'
+        - '&fTeam Kills&7:&e <winnerteamkills>'
+        - ''
+        - '<frozen>'
+        - '&aexample.com'
+        - '&7&m-----------------------'

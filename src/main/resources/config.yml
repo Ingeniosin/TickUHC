@@ -1,0 +1,73 @@
+#######################################################################################################
+#                                                                                                     #  
+#       _________  ___  ________  ___  __            ___  ___  ___  ___  ________                     #  
+#      |\___   ___\\  \|\   ____\|\  \|\  \         |\  \|\  \|\  \|\  \|\   ____\                    #              
+#      \|___ \  \_\ \  \ \  \___|\ \  \/  /|_       \ \  \\\  \ \  \\\  \ \  \___|                    #              
+#           \ \  \ \ \  \ \  \    \ \   ___  \       \ \  \\\  \ \   __  \ \  \                       #              
+#            \ \  \ \ \  \ \  \____\ \  \\ \  \       \ \  \\\  \ \  \ \  \ \  \____                  #              
+#             \ \__\ \ \__\ \_______\ \__\\ \__\       \ \_______\ \__\ \__\ \_______\                #              
+#              \|__|  \|__|\|_______|\|__| \|__|        \|_______|\|__|\|__|\|_______|                #              
+#                                                                                                     #  
+#                                  Made with <3 by @Ingeniosin                                        #
+#                                                                                                     #  
+#######################################################################################################
+
+#                                                                                                          #
+#                                              Config.yml                                                  #
+#                                                                                                          #
+#    Here you will find some settings such as database credentials, default size of the worlds and so on.  #
+#                                                                                                          #
+#                                                                                                          #
+
+#   Database credentials, URL, database name and collection are specified.   #
+Database:
+  mongodb:
+    url: 'mongodb://127.0.0.1:27017/'
+    database: 'database'
+    collection: 'UHCStats'
+
+#  The maximum size of the worlds, their names and whether they are activated are specified.   #
+Worlds:
+  normal:
+    name: uhc_world
+    max-size: 2000
+  nether:
+    enabled: true
+    name: uhc_world_nether
+    max-size: 500
+  practice:
+    enabled: true
+    name: uhc_world_practice
+    max-size: 250
+
+border:
+  height: 5
+  material: BEDROCK
+
+practice:
+  inventory: t@267:e@16@1;t@346;t@261:e@48@1:e@51@1;t@326;null;null;null;null;null;null;null;null;null;null;null;null;null;t@262;null;null;null;null;null;null;null;null;null;null;null;null;null;null;null;null;null;null;
+  armor: t@309:e@0@1;t@308:e@0@1;t@307:e@0@1;t@306:e@0@1;
+
+sounds:
+  countdown: 'NOTE_PLING'
+  start: 'EXPLODE'
+  heal: 'NONE'
+  pvp: 'NONE'
+# The edge travel is specified.   #
+Game:
+  shrinks:
+    - 2000
+    - 1500
+    - 1000
+    - 500
+    - 100
+    - 50
+    - 25
+
+# What colour should other player's nametags be?
+Nametag:
+  team: '&a'
+  enemy: '&c'
+  spectator: '&7'
+  assigned: '&d'
+  noclean: '&5'

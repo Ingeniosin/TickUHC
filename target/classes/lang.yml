@@ -1,0 +1,85 @@
+#######################################################################################################
+#                                                                                                     #  
+#       _________  ___  ________  ___  __            ___  ___  ___  ___  ________                     #  
+#      |\___   ___\\  \|\   ____\|\  \|\  \         |\  \|\  \|\  \|\  \|\   ____\                    #              
+#      \|___ \  \_\ \  \ \  \___|\ \  \/  /|_       \ \  \\\  \ \  \\\  \ \  \___|                    #              
+#           \ \  \ \ \  \ \  \    \ \   ___  \       \ \  \\\  \ \   __  \ \  \                       #              
+#            \ \  \ \ \  \ \  \____\ \  \\ \  \       \ \  \\\  \ \  \ \  \ \  \____                  #              
+#             \ \__\ \ \__\ \_______\ \__\\ \__\       \ \_______\ \__\ \__\ \_______\                #              
+#              \|__|  \|__|\|_______|\|__| \|__|        \|_______|\|__|\|__|\|_______|                #              
+#                                                                                                     #  
+#                                  Made with <3 by @Ingeniosin                                        #
+#                                                                                                     #  
+#######################################################################################################
+
+Lang:
+  freeze:
+    onPvP:
+      message:
+        - "&cYou are not allowed to damage frozen players"
+    onUnFreeze:
+      message:
+        - "&aYou are now unfrozen!"
+    onFreeze:
+      message:
+        - "&cYou are now frozen!"
+    alert:
+      message:
+        - "&7&m----------------------------------------"
+        - "      &6&lYOU HAVE BEEN &c&lFROZEN&6&l!"
+        - "  &eYou have 5 minutes to join on &cexample.com"
+        - "&7&m----------------------------------------"
+  counter:
+    schedule:
+      end:
+        message:
+          - "&fThe game will be un-whitelisted in &e<var>&f."
+      timer:
+        message:
+          - "&cThe game has been un-whitelisted."
+  practice:
+    notAvailable:
+      message:
+        - "&cPractice isn't joinable now."
+    join:
+      message:
+        - "&fYou have joined the practice arena. Type &b&l/practice &fto exit."
+    leave:
+      message:
+        - "&cYou have left the practice arena."
+    kill:
+      message:
+        - "&aYou killed&7:&f <var>"
+    dead:
+      default:
+        message:
+          - "&cYou have died."
+      byPlayer:
+        message:
+          - "&cYou were killed&7:&f <var>"
+  command:
+    noPermission:
+      message:
+        - "&cYou do not have permission to do this."
+    langReloaded:
+      message:
+        - "&aThe '&flang.yml&a' file was successfully reloaded!"
+    onlyPlayer:
+      message:
+        - "&cYou cannot run this command from the console."
+  kick:
+    failedLoad:
+      message:
+        - " "
+        - "&cFailed to load your profile. Please log in again."
+        - " "
+  welcome:
+    enable: true
+    message:
+      - " "
+      - "Hello <playerName>!"
+      - "Welcome to TickUHC"
+      - " "
+  notAvailable:
+    message:
+      - "&cYou can't do this right now."
