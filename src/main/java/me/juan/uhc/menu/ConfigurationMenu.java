@@ -14,14 +14,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
 public class ConfigurationMenu {
 
     public static void configurationMenu(Player player) {
-        new Menu(player, 9 * 3, true, "§eConfiguration Menu", ConfigButton.getConfigsButtons(9 * 3), true).open();
+        new Menu(player, 9 * 3, true, "§eConfiguration Menu", ConfigButton.getConfigsButtons(), true).open();
     }
 
     public static void scenarioManageMenu(Player player) {
@@ -47,13 +46,13 @@ public class ConfigurationMenu {
 
     }
 
-    public static class IntegerModifierMenu extends ModifierMenu{
+    public static class IntegerModifierMenu extends ModifierMenu {
 
         private final static int[] positions = new int[]{10, 11, 15, 16};
         private final String valueName;
         private final PremadeGame.IntConfig gameConfiguration;
         private final Menu menu;
-        private final ValueModifier[] buttons;
+        private ValueModifier[] buttons;
         private final Button centerButton;
 
         public IntegerModifierMenu(Player player, ConfigButton button) {
@@ -63,17 +62,12 @@ public class ConfigurationMenu {
             this.gameConfiguration = (PremadeGame.IntConfig) button.getConfigurationValue().get();
             this.centerButton = new Button(itemStack) {
                 @Override
-                public List<String> cacheLore() {
-                    return button.cacheLore();
-                }
+                public List<String> cacheLore() { return button.cacheLore(); }
             };
-            this.buttons = new ValueModifier[]{
-                    new ValueModifier(false, gameConfiguration.getIncrement2(), gameConfiguration.getLimitNegative()),
-                    new ValueModifier(false, gameConfiguration.getIncrement(), gameConfiguration.getLimitNegative()),
-                    new ValueModifier(true, gameConfiguration.getIncrement(), gameConfiguration.getLimitPositive()),
-                    new ValueModifier(true, gameConfiguration.getIncrement2(), gameConfiguration.getLimitPositive())
-            };
-            this.menu = new Menu(player, 9 * 3, true, "§eModify value: " + valueName, new TreeMap<Integer, Button>() {{ put(13, IntegerModifierMenu.this.centerButton);}}, true) {
+            this.inflateButtons();
+            this.menu = new Menu(player, 9 * 3, true, "§eModify value: " + valueName, new TreeMap<>() {{
+                put(13, IntegerModifierMenu.this.centerButton);
+            }}, true) {
 
                 @Override
                 public void onClose() { unregister(); }
@@ -86,11 +80,21 @@ public class ConfigurationMenu {
 
         @Override
         public void onValueUpdate() {
+            if (gameConfiguration.getLimitNegative() != this.buttons[0].limit || gameConfiguration.getLimitPositive() != this.buttons[this.buttons.length-1].limit) inflateButtons();
             TreeMap<Integer, Button> buttonHashMap = menu.getButtonHashMap();
             for (int i = 0; i < this.buttons.length; i++) {
                 ValueModifier button = this.buttons[i];
                 buttonHashMap.put(positions[i], !button.isInvalid() && !gameConfiguration.getDisabledModify().disabled() ? button : GlassButton.getRed());
             }
+        }
+
+        private void inflateButtons() {
+            this.buttons = new ValueModifier[]{
+                    new ValueModifier(false, gameConfiguration.getIncrement2(), gameConfiguration.getLimitNegative()),
+                    new ValueModifier(false, gameConfiguration.getIncrement(), gameConfiguration.getLimitNegative()),
+                    new ValueModifier(true, gameConfiguration.getIncrement(), gameConfiguration.getLimitPositive()),
+                    new ValueModifier(true, gameConfiguration.getIncrement2(), gameConfiguration.getLimitPositive())
+            };
         }
 
         public class ValueModifier extends Button {
@@ -139,20 +143,12 @@ public class ConfigurationMenu {
             this.configButtons = configButtons;
             this.menu = new Menu(player, 9, true, button.getItemStack().getItemMeta().getDisplayName(), configButtons, true) {
                 @Override
-                public void onLoad() {
-                    for (int i = 0; i < getButtonHashMap().size(); i++) if (getButtonHashMap().get(i) instanceof ConfigButton) positions.add(i);
-                }
+                public void onClose() { unregister(); }
 
                 @Override
-                public void onClose() {
-                    unregister();
-                }
-
-                @Override
-                public void click(Button button, int index) {
-                    if (configButtons.contains(button)) updateAll();
-                }
+                public void click(Button button, int index) { if (configButtons.contains(button)) updateAll(); }
             };
+            for (int i = 0; i < this.menu.getButtonHashMap().size(); i++) if (this.menu.getButtonHashMap().get(i) instanceof ConfigButton) positions.add(i);
             this.onValueUpdate();
             this.menu.open();
         }

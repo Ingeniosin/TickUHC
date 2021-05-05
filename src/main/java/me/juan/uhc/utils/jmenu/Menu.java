@@ -64,7 +64,7 @@ public class Menu {
         TreeMap<Integer, Button> buttonHashMap = new TreeMap<>();
         arrayListButton.forEach(button -> buttonHashMap.put(buttonHashMap.size(), button));
         this.setButtonHashMap(buttonHashMap, glassFill);
-        this.onLoad();
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), this::onLoad);
     }
 
     public Menu(Player player, int size, boolean autoUpdate, String title, TreeMap<Integer, Button> buttonHashMap, boolean glassFill) {

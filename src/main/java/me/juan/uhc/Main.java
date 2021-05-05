@@ -21,6 +21,7 @@ import me.juan.uhc.manager.game.GameManager;
 import me.juan.uhc.manager.game.GameStatus;
 import me.juan.uhc.manager.gamemode.GameMode;
 import me.juan.uhc.manager.gamemode.modes.NoClean;
+import me.juan.uhc.menu.buttons.ConfigButton;
 import me.juan.uhc.nms.NMS;
 import me.juan.uhc.nms.versions.v1_7_R4;
 import me.juan.uhc.nms.versions.v1_8_R3;
@@ -60,6 +61,8 @@ public class Main extends JavaPlugin {
         initCommands();
         initTasks();
         initScenarios();
+        ConfigButton.loadButtons();
+
         this.getLogger().info(" ");
         this.getLogger().info("The plugin has started correctly, loading time: " + (System.currentTimeMillis() - time) + "ms.");
         this.getLogger().info(" ");
@@ -125,7 +128,6 @@ public class Main extends JavaPlugin {
         this.getCommand("practice").setExecutor(new PracticeCommand());
         this.getCommand("freeze").setExecutor(new FreezeCommand());
         this.getCommand("whitelist").setExecutor(new WhitelistCommand());
-
         this.getLogger().info("The Commands were loaded correctly.");
     }
 

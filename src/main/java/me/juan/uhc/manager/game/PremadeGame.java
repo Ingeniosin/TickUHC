@@ -19,6 +19,7 @@ public class PremadeGame {
 
     private IntConfig teamSize;
 
+
     //TIMERS
     private IntConfig pvpTime;
     private IntConfig healTime;
@@ -46,6 +47,10 @@ public class PremadeGame {
     private IntConfig netherClose;
 
 
+    //WHITELIST
+    private BolConfig autoScatter;
+    private IntConfig autoScatterTime;
+
     public PremadeGame() {
         ValueConfiguration.DisabledValue pvpCause = () -> GameManager.getGameManager().isPlaying(), netherDisabledCause = () -> pvpCause.disabled() || !nether.getValue();
         int netherMaxSize = NETHER.get().getMaxSize(), normalMaxSize = NORMAL.get().getMaxSize(), lastBorderShrink = GameConfiguration.getLastBorderShrink();
@@ -53,8 +58,8 @@ public class PremadeGame {
         this.appleRate = new IntConfig(5, 0, 100, 1, 5);
         this.slots = new IntConfig(200, 1, 500, 10, 50);
         this.teamSize = new IntConfig(1, 1, 10, 1, -1);
-        this.pvpTime = new IntConfig(20, 1, -1, 1, 5);
-        this.healTime = new IntConfig(20, 1, -1, 1, 5);
+        this.pvpTime = new IntConfig(20, 1, -1, 1, 5).setChangedValue(() -> autoScatterTime.setLimitPositive(pvpTime.getValue()));
+        this.healTime = new IntConfig(10, 1, -1, 1, 5);
         this.invincibilityTime = new IntConfig(30, 1, -1, 1, 5);
         this.startingTime = new IntConfig(10, 1, -1, 1, 5);
         this.chatTime = new IntConfig(10, 1, -1, 1, 5);
@@ -69,6 +74,9 @@ public class PremadeGame {
         this.nether = new BolConfig(NETHER.get().isEnabled()).setDisabledModify(pvpCause);
         this.netherSize = new IntConfig(netherMaxSize, lastBorderShrink, netherMaxSize, 100, 500).setDisabledModify(netherDisabledCause);
         this.netherClose = new IntConfig(500, lastBorderShrink, normalMaxSize, 100, 500).setDisabledModify(netherDisabledCause);
+
+        this.autoScatter = new BolConfig(true);
+        this.autoScatterTime = new IntConfig(this.healTime.getValue(), 1, this.pvpTime.getValue(), 1, 5).setDisabledModify(() -> !autoScatter.getValue());
     }
 
     public String getType() {
@@ -78,6 +86,7 @@ public class PremadeGame {
     @Getter
     public abstract static class ValueConfiguration<E> {
 
+        private ChangedValue changedValue;
         private DisabledValue disabledModify;
         private E value;
 
@@ -87,8 +96,18 @@ public class PremadeGame {
         }
 
         public E setValue(E value) {
-            if (!disabledModify.disabled()) this.value = value;
+            if (!disabledModify.disabled()) this.setForceValue(value);
+            if (changedValue != null) changedValue.onChange();
             return value;
+        }
+
+        public void setForceValue(E value) {
+            this.value = value;
+        }
+
+        public <T> T setChangedValue(ChangedValue changedValue) {
+            this.changedValue = changedValue;
+            return (T) this;
         }
 
         public <T> T setDisabledModify(DisabledValue disabledModify) {
@@ -100,12 +119,22 @@ public class PremadeGame {
             boolean disabled();
         }
 
+
+        public interface ChangedValue {
+            void onChange();
+        }
     }
 
     @Getter
     public static class IntConfig extends ValueConfiguration<Integer> {
 
-        private final int limitNegative, limitPositive, increment, increment2;
+        private final int limitNegative, increment, increment2;
+        private int limitPositive;
+
+        public void setLimitPositive(int limitPositive) {
+            this.limitPositive = limitPositive;
+            if (getValue() > limitPositive) setValue(limitPositive);
+        }
 
         public IntConfig(Integer value, int limitNegative, int limitPositive, int increment, int increment2) {
             super(value);

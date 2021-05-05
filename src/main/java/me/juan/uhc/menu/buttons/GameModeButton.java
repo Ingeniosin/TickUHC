@@ -20,8 +20,7 @@ public class GameModeButton extends Button {
 
     @Override
     public List<String> cacheLore() {
-        String status = gameMode.isEnabled() ? "§aEnabled" : "§cDisabled";
-        return new ArrayList<>(Arrays.asList(lines(), "§6Status: " + status, lines()));
+        return new ArrayList<>(Arrays.asList(lines(), "§6Status: " + (gameMode.isEnabled() ? "§aEnabled" : "§cDisabled"), lines()));
     }
 
     private String lines() {
