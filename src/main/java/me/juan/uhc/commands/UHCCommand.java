@@ -1,6 +1,8 @@
 package me.juan.uhc.commands;
 
 import me.juan.uhc.configuration.lang.LangConfiguration;
+import me.juan.uhc.manager.game.task.CountDownTask;
+import me.juan.uhc.manager.game.task.GameTaskStatus;
 import me.juan.uhc.menu.ConfigurationMenu;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,6 +29,9 @@ public class UHCCommand extends me.juan.uhc.commands.Command {
                 return;
             case "scenarios":
                 ConfigurationMenu.scenarioManageMenu(player);
+                return;
+            case "startcount":
+                new CountDownTask(120, GameTaskStatus.STARTING);
                 return;
             case "start":
 

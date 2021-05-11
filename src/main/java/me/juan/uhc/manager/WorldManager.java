@@ -5,7 +5,6 @@ import com.wimbli.WorldBorder.Events.WorldBorderFillStartEvent;
 import lombok.Getter;
 import me.juan.uhc.Main;
 import me.juan.uhc.configuration.worlds.WorldsConfiguration;
-import me.juan.uhc.manager.game.GameManager;
 import me.juan.uhc.manager.game.GameStatus;
 import me.juan.uhc.utils.PluginUtil;
 import org.apache.commons.io.FileUtils;
@@ -41,7 +40,7 @@ public class WorldManager {
 
     public WorldManager() {
         String absolutePath = Main.getMain().getServer().getWorldContainer().getAbsolutePath();
-        this.path = absolutePath.substring(0, absolutePath.length()-2);
+        this.path = absolutePath.substring(0, absolutePath.length() - 2);
         this.gameManager = GameManager.getGameManager();
         WorldsConfiguration.LOBBY.get().setWorld(setAttributes(Bukkit.getWorlds().get(0), false));             //<- Se inicializa el mundo Lobby
         initWorlds();

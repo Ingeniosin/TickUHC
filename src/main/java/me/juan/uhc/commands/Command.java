@@ -4,7 +4,7 @@ import me.juan.uhc.Main;
 import me.juan.uhc.configuration.lang.LangConfiguration;
 import me.juan.uhc.configuration.permissions.PermissionsConfiguration;
 import me.juan.uhc.manager.game.Game;
-import me.juan.uhc.manager.game.GameManager;
+import me.juan.uhc.manager.GameManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

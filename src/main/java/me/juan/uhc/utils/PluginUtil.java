@@ -4,8 +4,8 @@ import com.google.gson.internal.Primitives;
 import me.juan.uhc.Main;
 import me.juan.uhc.manager.WorldManager;
 import me.juan.uhc.manager.game.Game;
-import me.juan.uhc.manager.game.GameManager;
-import me.juan.uhc.manager.game.PremadeGame;
+import me.juan.uhc.manager.GameManager;
+import me.juan.uhc.manager.game.premade.PremadeGame;
 import me.juan.uhc.nms.versions.v1_8_R3;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -97,6 +97,10 @@ public class PluginUtil {
 
     public static <T> T getElement(Class<T> classT, ConfigCursor configCursor, String value, boolean stopOnException) {
         return getElement(classT, configCursor, value, stopOnException, true);
+    }
+
+    public static String lines() {
+        return "§7§m---------------------";
     }
 
     public static <T> T getElement(Class<T> classT, ConfigCursor configCursor, String value, boolean stopOnException, boolean printException) {    //<- VER ConfigurationFile.java

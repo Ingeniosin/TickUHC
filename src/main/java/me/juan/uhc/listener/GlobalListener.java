@@ -6,7 +6,7 @@ import me.juan.uhc.listener.game.GameListener;
 import me.juan.uhc.listener.game.ScatterListener;
 import me.juan.uhc.listener.game.SpectatorListener;
 import me.juan.uhc.listener.lobby.LobbyListener;
-import me.juan.uhc.manager.game.GameManager;
+import me.juan.uhc.manager.GameManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;

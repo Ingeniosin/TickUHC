@@ -1,31 +1,23 @@
 package me.juan.uhc.menu.buttons;
 
 import me.juan.uhc.manager.gamemode.GameMode;
+import me.juan.uhc.utils.PluginUtil;
 import me.juan.uhc.utils.jmenu.Menu;
 import me.juan.uhc.utils.jmenu.buttons.Button;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class GameModeButton extends Button {
 
     private final GameMode gameMode;
 
     public GameModeButton(GameMode gameMode) {
-        super(gameMode.getItemStack());
+        super(gameMode.getItemStack(), () -> new ArrayList<>(Arrays.asList(PluginUtil.lines(), "§6Status: " + (gameMode.isEnabled() ? "§aEnabled" : "§cDisabled"), PluginUtil.lines())), null);
         this.gameMode = gameMode;
     }
 
-    @Override
-    public List<String> cacheLore() {
-        return new ArrayList<>(Arrays.asList(lines(), "§6Status: " + (gameMode.isEnabled() ? "§aEnabled" : "§cDisabled"), lines()));
-    }
-
-    private String lines() {
-        return "§7§m---------------------";
-    }
 
     @Override
     public void onClick(Player player, Menu menu) {

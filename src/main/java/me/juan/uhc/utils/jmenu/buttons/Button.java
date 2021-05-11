@@ -9,17 +9,24 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.List;
 
 @Data
-public abstract class Button {
+public class Button {
 
-    public ItemStack item;
+    private ItemStack item;
+    private ValueInterface lore, name;
 
-    public Button(ItemStack itemStack) {
-        this.item = itemStack;
+    public Button(ItemStack item) {
+        this(item, null, null);
+    }
+
+    public Button(ItemStack item, ValueInterface lore, ValueInterface name) {
+        this.lore = lore;
+        this.name = name;
+        this.item = item;
     }
 
     public ItemStack getItemStack() {
-        String name = cacheName();
-        List<String> lore = cacheLore();
+        String name = (String) (this.name == null ? null : this.name.value());
+        List<String> lore = (List<String>) (this.lore == null ? null : this.lore.value());
         ItemMeta meta = this.item.getItemMeta();
         boolean isCache = name != null || meta != null;
         if (isCache) {
@@ -30,19 +37,15 @@ public abstract class Button {
         return item;
     }
 
-    public String cacheName() {
-        return null;
-    }
-
-    public List<String> cacheLore() {
-        return null;
-    }
-
     public void onClick(Player player, Menu menu) {
         onClick();
     }
 
     public void onClick() {
+    }
+
+    public interface ValueInterface {
+        Object value();
     }
 
 

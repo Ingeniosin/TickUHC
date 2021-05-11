@@ -2,6 +2,7 @@ package me.juan.uhc.manager.game;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.juan.uhc.manager.game.premade.PremadeGame;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class Game {
     @Setter
     private PremadeGame premadeGame;
 
-    protected Game(PremadeGame premadeGame) {
+    public Game(PremadeGame premadeGame) {
         this.premadeGame = premadeGame;
     }
 

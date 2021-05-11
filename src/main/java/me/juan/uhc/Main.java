@@ -17,7 +17,7 @@ import me.juan.uhc.listener.PlayerListener;
 import me.juan.uhc.manager.FrozenManager;
 import me.juan.uhc.manager.PracticeManager;
 import me.juan.uhc.manager.WorldManager;
-import me.juan.uhc.manager.game.GameManager;
+import me.juan.uhc.manager.GameManager;
 import me.juan.uhc.manager.game.GameStatus;
 import me.juan.uhc.manager.gamemode.GameMode;
 import me.juan.uhc.manager.gamemode.modes.NoClean;

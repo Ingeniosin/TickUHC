@@ -31,7 +31,7 @@ public class PaginationButtons extends Button {
     }
 
     public void update() {
-        item.setDurability(hasPages() ? 7 : getDamage());
+        getItem().setDurability(hasPages() ? 7 : getDamage());
     }
 
     private boolean hasPages() {

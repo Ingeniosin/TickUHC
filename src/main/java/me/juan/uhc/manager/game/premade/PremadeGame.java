@@ -1,8 +1,9 @@
-package me.juan.uhc.manager.game;
+package me.juan.uhc.manager.game.premade;
 
 import lombok.Getter;
 import lombok.Setter;
 import me.juan.uhc.configuration.game.GameConfiguration;
+import me.juan.uhc.manager.GameManager;
 
 import static me.juan.uhc.configuration.worlds.WorldsConfiguration.NETHER;
 import static me.juan.uhc.configuration.worlds.WorldsConfiguration.NORMAL;
@@ -79,8 +80,12 @@ public class PremadeGame {
         this.autoScatterTime = new IntConfig(this.healTime.getValue(), 1, this.pvpTime.getValue(), 1, 5).setDisabledModify(() -> !autoScatter.getValue());
     }
 
+    public boolean isTeams() {
+        return teamSize.getValue() > 1;
+    }
+
     public String getType() {
-        return teamSize.getValue() > 1 ? "To" + teamSize : "FFA";
+        return isTeams() ? "To" + teamSize : "FFA";
     }
 
     @Getter
@@ -131,17 +136,17 @@ public class PremadeGame {
         private final int limitNegative, increment, increment2;
         private int limitPositive;
 
-        public void setLimitPositive(int limitPositive) {
-            this.limitPositive = limitPositive;
-            if (getValue() > limitPositive) setValue(limitPositive);
-        }
-
         public IntConfig(Integer value, int limitNegative, int limitPositive, int increment, int increment2) {
             super(value);
             this.limitNegative = limitNegative;
             this.limitPositive = limitPositive;
             this.increment = increment;
             this.increment2 = increment2;
+        }
+
+        public void setLimitPositive(int limitPositive) {
+            this.limitPositive = limitPositive;
+            if (getValue() > limitPositive) setValue(limitPositive);
         }
     }
 

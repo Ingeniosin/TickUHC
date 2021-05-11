@@ -3,7 +3,7 @@ package me.juan.uhc.listener;
 import lombok.Getter;
 import me.juan.uhc.Main;
 import me.juan.uhc.manager.game.Game;
-import me.juan.uhc.manager.game.GameManager;
+import me.juan.uhc.manager.GameManager;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 

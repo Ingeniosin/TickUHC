@@ -5,7 +5,6 @@ import me.juan.uhc.Main;
 import me.juan.uhc.configuration.hotbar.HotbarConfiguration;
 import me.juan.uhc.configuration.lang.LangConfiguration;
 import me.juan.uhc.configuration.worlds.WorldsConfiguration;
-import me.juan.uhc.manager.game.GameManager;
 import me.juan.uhc.utils.PluginUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;

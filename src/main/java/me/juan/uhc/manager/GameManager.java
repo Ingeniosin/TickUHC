@@ -1,9 +1,14 @@
-package me.juan.uhc.manager.game;
+package me.juan.uhc.manager;
 
 import lombok.Getter;
 import me.juan.uhc.configuration.permissions.PermissionsConfiguration;
 import me.juan.uhc.event.GameStatusChangeEvent;
 import me.juan.uhc.event.GameTaskChangeEvent;
+import me.juan.uhc.manager.game.Game;
+import me.juan.uhc.manager.game.GameStatus;
+import me.juan.uhc.manager.game.premade.PremadeGame;
+import me.juan.uhc.manager.game.task.GameTask;
+import me.juan.uhc.manager.game.task.GameTaskStatus;
 import me.juan.uhc.utils.PluginUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,6 +23,7 @@ public class GameManager {
     private final Game game;
     private GameTask gameTask;
     private GameStatus gameStatus = GameStatus.GENERATING;
+    private GameTaskStatus gameTaskStatus = GameTaskStatus.NONE;
 
     public GameManager() {
         gameManager = this;
@@ -25,38 +31,19 @@ public class GameManager {
     }
 
     //TASKS
-    public void setGameTask(GameTask gameTask) {
+    public void setGameTask(GameTask gameTask, GameTaskStatus gameTaskStatus) {
         if (this.gameTask != null) this.gameTask.cancel();
         this.gameTask = gameTask;
-        Bukkit.getPluginManager().callEvent(new GameTaskChangeEvent());
-    }
-
-    private boolean isCountDownTask() {
-        return hasGameTask() && gameTask instanceof GameTask.CountDownTask;
-    }
-
-    public boolean isNotScheduleTask() {
-        return !hasGameTask() && isWaiting();
-    }
-
-    public boolean isOpeningTask() {
-        return isWaiting() && isCountDownTask();
-    }
-
-    public boolean isStartingTask() {
-        return isStarting() && isCountDownTask();
-    }
-
-    public boolean hasGameTask() {
-        return gameTask != null;
+        this.gameTaskStatus = gameTaskStatus;
+        Bukkit.getPluginManager().callEvent(new GameTaskChangeEvent(gameTaskStatus));
     }
 
 
     //GAMESTATUS
     public void setGameStatus(GameStatus gameStatus) {
-        if (!this.gameStatus.equals(gameStatus))
-            Bukkit.getPluginManager().callEvent(new GameStatusChangeEvent(this.gameStatus, gameStatus));
+        boolean isEquals = this.gameStatus.equals(gameStatus);
         this.gameStatus = gameStatus;
+        if (!isEquals) Bukkit.getPluginManager().callEvent(new GameStatusChangeEvent(this.gameStatus, gameStatus));
     }
 
     public boolean isGenerating() {
@@ -94,7 +81,7 @@ public class GameManager {
 
     //WAITING BOOLEANS
 
-    public String isWhitelist(Player player) {
+    public String isNotWhitelist(Player player) {
         String result = null;
         if (Bukkit.getOnlinePlayers().size() >= game.getPremadeGame().getSlots().getValue())
             return "§cThe player limit is full: " + game.getPremadeGame().getSlots() + "/" + game.getPremadeGame().getSlots() + "!";
@@ -103,8 +90,7 @@ public class GameManager {
             case STARTING:
             case GENERATING:
                 boolean join = this.game.isWhitelist() && (this.game.getWhitelistNames().contains(player.getName().toLowerCase()) || PermissionsConfiguration.WHITELIST_BYPASS.contains(player));
-                if (!join)
-                    result = isGenerating() ? "§cThe world is being generated: " + PluginUtil.setGlobalPlaceholder("<percent>") + "%." : "§cYou are not on the whitelist.";
+                result = !join ? (isGenerating() ? "§cThe world is being generated: " + PluginUtil.setGlobalPlaceholder("<percent>") + "%." : "§cYou are not on the whitelist.") : null;
                 break;
             case SCATTERING:
                 result = "§cThey are teleporting to the players, wait a minute.";
@@ -117,7 +103,7 @@ public class GameManager {
 
     //GAMETIMER
     public boolean isPvPEnabled() {
-        return hasGameTask() && gameTask.getCounter() > game.getPremadeGame().getPvpTime().getValue();
+        return isPlaying() && gameTask.getCounter() > game.getPremadeGame().getPvpTime().getValue();
     }
 
 }

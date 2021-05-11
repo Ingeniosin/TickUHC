@@ -1,7 +1,7 @@
 package me.juan.uhc.listener;
 
 import me.juan.uhc.configuration.lang.LangConfiguration;
-import me.juan.uhc.manager.game.GameManager;
+import me.juan.uhc.manager.GameManager;
 import me.juan.uhc.player.UHCPlayer;
 import me.juan.uhc.scoreboard.UHCBoard;
 import org.bukkit.entity.Player;
@@ -32,7 +32,7 @@ public class PlayerListener implements Listener {
     public void onPlayerLoginEvent(PlayerLoginEvent e) {
         Player player = e.getPlayer();
         GameManager gameManager = GameManager.getGameManager();
-        String result = gameManager.isWhitelist(player);
+        String result = gameManager.isNotWhitelist(player);
         if (result == null) return;
         e.setKickMessage(result);
         e.setResult(PlayerLoginEvent.Result.KICK_OTHER);

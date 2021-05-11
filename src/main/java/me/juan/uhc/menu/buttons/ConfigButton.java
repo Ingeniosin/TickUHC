@@ -1,16 +1,21 @@
 package me.juan.uhc.menu.buttons;
 
 import lombok.Getter;
-import me.juan.uhc.manager.game.GameManager;
-import me.juan.uhc.manager.game.PremadeGame;
+import me.juan.uhc.manager.GameManager;
+import me.juan.uhc.manager.game.premade.PremadeGame;
 import me.juan.uhc.menu.ConfigurationMenu;
+import me.juan.uhc.menu.modifier.IntegerModifierMenu;
+import me.juan.uhc.menu.modifier.SpecificModifierMenu;
 import me.juan.uhc.utils.ItemCreator;
+import me.juan.uhc.utils.PluginUtil;
 import me.juan.uhc.utils.jmenu.Menu;
 import me.juan.uhc.utils.jmenu.buttons.Button;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.TreeMap;
 
 import static me.juan.uhc.configuration.permissions.PermissionsConfiguration.ADMIN;
 import static me.juan.uhc.configuration.permissions.PermissionsConfiguration.HOST;
@@ -26,6 +31,18 @@ public class ConfigButton extends Button {
     private final ConfigurationValue configurationValue;
     private final String name;
 
+
+    public interface ConfigurationValue {
+
+        PremadeGame.ValueConfiguration get();
+
+    }
+
+    private ConfigButton(Material material, String name, ConfigurationValue configurationValue) {
+        super(new ItemCreator(material).get(), configurationValue.get() == null ? null : () -> new ArrayList<>(Arrays.asList(PluginUtil.lines(), "§eCurrent value: §6" + configurationValue.get().getValue().toString(), PluginUtil.lines())), () -> "§c" + name);
+        this.name = name;
+        this.configurationValue = configurationValue;
+    }
 
     public static void loadButtons() {
         PremadeGame premadeGame = GameManager.getGameManager().getGame().getPremadeGame();
@@ -50,26 +67,12 @@ public class ConfigButton extends Button {
         ));
         int element = 0;
         for (int i = 0; i < 27; i++) {
-            while (i % 9 == 6  || i % 9 == 7 || i % 9 == 8) i++;
+            while (i % 9 == 6 || i % 9 == 7 || i % 9 == 8) i++;
             if (element < configsArray.size()) configsButtons.put(i, configsArray.get(element++));
         }
+        configsButtons.put(26, new ConfigButton(Material.EMERALD, "Schedule Game", () -> null));
         netherConfigsButtons = new ArrayList<>(Arrays.asList(new ConfigButton(Material.NETHERRACK, "Nether Status", premadeGame::getNether), new ConfigButton(Material.NETHER_BRICK, "Nether Size", premadeGame::getNetherSize), new ConfigButton(Material.NETHER_BRICK_ITEM, "Nether Close", premadeGame::getNetherClose)));
         autoScatterConfigsButtons = new ArrayList<>(Arrays.asList(new ConfigButton(Material.EYE_OF_ENDER, "Auto Scatter Status", premadeGame::getAutoScatter), new ConfigButton(Material.WATCH, "Auto Scatter Time", premadeGame::getAutoScatterTime)));
-    }
-
-    private ConfigButton(Material material, String name, ConfigurationValue configurationValue) {
-        super(new ItemCreator(material).setName("§c" + name).get());
-        this.name = name;
-        this.configurationValue = configurationValue;
-    }
-
-    private String lines() {
-        return "§7§m---------------------";
-    }
-
-    @Override
-    public List<String> cacheLore() {
-        return configurationValue.get() == null ? null : new ArrayList<>(Arrays.asList(lines(), "§eCurrent value: §6" + configurationValue.get().getValue().toString(), lines()));
     }
 
     @Override
@@ -85,31 +88,24 @@ public class ConfigButton extends Button {
                         player.sendMessage("§cThe nether is disabled in config.yml");
                         return;
                     }
-                    new ConfigurationMenu.SpecificModifierMenu(player, getNetherConfigsButtons(), this);
+                    new SpecificModifierMenu(player, getNetherConfigsButtons(), this);
                     return;
                 case "Death Match Management":
 
                     return;
                 case "Auto Scatter Management":
-                    new ConfigurationMenu.SpecificModifierMenu(player, getAutoScatterConfigsButtons(), this);
+                    new SpecificModifierMenu(player, getAutoScatterConfigsButtons(), this);
                     return;
             }
             return;
         }
         boolean heCan = HOST.contains(player) || ADMIN.contains(player); //HAY QUE CAMBIARLO POR isHost?
         if (!heCan) return;
-        if (valueConfiguration instanceof PremadeGame.IntConfig)
-            new ConfigurationMenu.IntegerModifierMenu(player, this);
-        else {
+        if (valueConfiguration instanceof PremadeGame.IntConfig) new IntegerModifierMenu(player, this);
+        else if (valueConfiguration instanceof PremadeGame.BolConfig) {
             PremadeGame.BolConfig gameBoolean = (PremadeGame.BolConfig) valueConfiguration;
             player.sendMessage("§eThe value §f'§c" + name + "§f' §ewas modified, now it is: §6" + gameBoolean.setValue(!gameBoolean.getValue()));
         }
     }
 
-
-    public interface ConfigurationValue {
-
-        PremadeGame.ValueConfiguration get();
-
-    }
 }
